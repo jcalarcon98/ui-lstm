@@ -12,7 +12,6 @@ import Box from '@mui/material/Box';
 
 export const Prediction = () => {
 
-
   const [days, setSelectedDays] = useState(1);
   const [loadingPrediction, setLoadingPrediction] = useState();
   const [loadingCountries, setLoadingCountries] = useState();
@@ -20,6 +19,7 @@ export const Prediction = () => {
   const [selectedCountries, setSelectedCountries] = useState([]);
   const [predictions, setPredictions] = useState([]);
   const [plotData, setPlotData] = useState([]);
+  const [deathPlotData, setDeathPlotData] = useState([]);
 
   useEffect(() => {
     const fetchAvailableCountries = async () => {
@@ -33,6 +33,7 @@ export const Prediction = () => {
 
   useEffect(() => {
     const data = [];
+    const deathData = [];
 
     if (predictions) {
       predictions.forEach(
@@ -50,6 +51,14 @@ export const Prediction = () => {
             x_pred: xPrediction,
             y_pred: yPrediction,
           } = confirmedCases;
+
+          const {
+            x_truth: xDeathValues,
+            y_truth: yDeathValues,
+            x_pred: xDeathPrediction,
+            y_pred: yDeathPrediction,
+          } = deathCases;
+
           data.push({
             x: xValues,
             y: yValues,
@@ -69,9 +78,30 @@ export const Prediction = () => {
             yaxis: `y${index + 1}`,
             name: `PREDICCION ${country}`,
           });
+
+          deathData.push({
+            x: xDeathValues,
+            y: yDeathValues,
+            type: "scatter",
+            mode: "lines+markers",
+            xaxis: `x${index + 1}`,
+            yaxis: `y${index + 1}`,
+            name: `MUERTES ACTUALES ${country}`,
+          });
+
+          deathData.push({
+            x: xDeathPrediction,
+            y: yDeathPrediction,
+            type: "scatter",
+            mode: "lines+markers",
+            xaxis: `x${index + 1}`,
+            yaxis: `y${index + 1}`,
+            name: `PREDICCION ${country}`,
+          });
         }
       );
       setPlotData(data);
+      setDeathPlotData(deathData);
     }
   }, [predictions]);
 
@@ -131,6 +161,28 @@ export const Prediction = () => {
                   data={plotData}
                   layout={{
                     title: "Prediccion de casos confirmados de COVID-19",
+                    grid: { rows: 3, columns: 2, pattern: "independent" },
+                    width: 1000,
+                    height: 500,
+                    margin: {
+                      l: 50,
+                      r: 50,
+                      b: 100,
+                      t: 100,
+                      pad: 4,
+                    },
+                    paper_bgcolor: "#000000",
+                    plot_bgcolor: "#000003",
+                  }}
+                />
+
+                <hr/>
+                <hr/>
+
+                <Plot
+                  data={deathPlotData}
+                  layout={{
+                    title: "Prediccion de casos de muertes de COVID-19",
                     grid: { rows: 3, columns: 2, pattern: "independent" },
                     width: 1000,
                     height: 500,
