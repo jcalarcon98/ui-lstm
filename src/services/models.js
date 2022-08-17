@@ -9,20 +9,15 @@ const backend = axios.create({
   }
 });
 
-export const getPredictionsByCountries = async (countries, days) => {
+export const getPredictionsByCountries = async (countries, days, date) => {
   const data = {
     countries,
-    days: parseInt(days)
+    days: parseInt(days),
+    pivot_date: date
   }
 
-  console.log(data);
-
   try {
-    const response = await backend.post('/predictions', {
-      countries,
-      days: parseInt(days)
-
-    });
+    const response = await backend.post('/predictions', data);
     return response?.data;
   }
   catch (error) {

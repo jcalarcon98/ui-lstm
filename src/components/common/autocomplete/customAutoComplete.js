@@ -19,6 +19,7 @@ export const CustomAutoComplete = ({
 }) => {
   return (
     <Autocomplete
+      style={{ marginLeft: 10}}
       value={value}
       onChange={onChange}
       sx={{ width }}

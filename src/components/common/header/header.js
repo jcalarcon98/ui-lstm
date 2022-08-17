@@ -11,8 +11,7 @@ import { ReactComponent as CloseIcon } from "feather-icons/dist/icons/x.svg";
 import { Link } from "react-router-dom";
 
 const Header = tw.header`
-  flex justify-between items-center
-  max-w-screen-xl mx-auto
+  flex justify-between items-center my-3 w-full px-20 shadow-md
 `;
 
 export const NavLinks = tw.div`inline-block`;
@@ -60,10 +59,13 @@ export default ({ roundedHeaderButton = false, logoLink, links, className, colla
   const defaultLinks = [
     <NavLinks key={1}>
       <NavLink>
-        <Link to="/">LSTM</Link>
+        <Link to="/">Principal</Link>
       </NavLink>
       <NavLink>
-        <Link to='prediction'>Implementación</Link>
+        <Link to='/prediction'>Implementación</Link>
+      </NavLink>
+      <NavLink>
+        <Link to='/about'>Acerca de</Link>
       </NavLink>
     </NavLinks>
   ];
